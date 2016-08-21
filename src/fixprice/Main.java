@@ -30,6 +30,7 @@ public class Main {
         Block thirdCell = new Block(board, cells.get(2).getDataWidth(), 1, cells.get(2).getData());
         secondCell.setRightBlock(thirdCell);
 
+        System.out.println(board.invalidate().build().getPreview());
 
 
     }
