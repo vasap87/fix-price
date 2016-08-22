@@ -1,5 +1,6 @@
 package fixprice.tools;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -29,11 +30,37 @@ public class Table {
         return result;
     }
 
-    public TableRow getTableRowByIndex(int index){
+    public TableRow getTableRowByIndex(int index) {
         return tableRows.get(index);
     }
 
     public List<TableRow> getTableRows() {
         return tableRows;
+    }
+
+    public List<Integer> getColumnWidths() {
+        List<Integer> result = new ArrayList<>();
+
+        //считаем кол-во столбцов в таблице
+        int countColumn = 0;
+        for (TableRow tableRow : tableRows) {
+            int countCellInCurrentRow = tableRow.getRowCells().size();
+            if (countCellInCurrentRow > countColumn) countColumn = countCellInCurrentRow;
+        }
+
+        //для каждого столбца ищем максимальный размер содержимого
+        for (int i = 0; i < countColumn; i++) {
+            int columnWidth = 0;
+            for (TableRow tableRow : tableRows) {
+                if (tableRow.getRowCells().size() >= i + 1) {
+                    int currentColumnWidth = tableRow.getRowCells().get(i).getDataWidth();
+                    if(currentColumnWidth>columnWidth) columnWidth = currentColumnWidth;
+                } else {
+                    continue;
+                }
+            }
+            result.add(columnWidth);
+        }
+        return result;
     }
 }

@@ -41,6 +41,11 @@ public class TableRow {
     }
 
     public int getHeight() {
-        return 0;
+        int height = 0;
+        for (TableCell tableCell: rowCells) {
+            int cellHeight = tableCell.getDataHeight();
+            if(cellHeight>height) height =cellHeight;
+        }
+        return height;
     }
 }

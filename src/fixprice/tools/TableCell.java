@@ -51,4 +51,20 @@ public class TableCell {
     public String getData() {
         return data;
     }
+
+    public int getDataHeight() {
+        int result = 0;
+        String[] dataParts = data.split("\t");
+        if (dataParts.length>0) result+= dataParts.length;
+        if (innerTables.size()>0) {
+            int innerTableRowsRezult=0;
+            for (Table innerTable: innerTables) {
+                for (TableRow innerTableRow: innerTable.getTableRows()) {
+                    innerTableRowsRezult+=innerTableRow.getHeight();
+                }
+            }
+            result+=(innerTableRowsRezult*2+1);
+        }
+        return result;
+    }
 }

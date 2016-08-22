@@ -80,6 +80,7 @@ public class HtmlParser {
                 }
                 tableRow.addRowCell(new TableCell(tableRow, innerTables, colspan, rowspan, resData.toString()));
             } else {
+                data.append("\t");
                 tableRow.addRowCell(new TableCell(tableRow, null, colspan, rowspan, data.toString()));
             }
         }
