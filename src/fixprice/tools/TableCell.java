@@ -52,6 +52,14 @@ public class TableCell {
         return data;
     }
 
+    public int getColspan() {
+        return colspan;
+    }
+
+    public int getRowspan() {
+        return rowspan;
+    }
+
     public int getDataHeight() {
         int result = 0;
         String[] dataParts = data.split("\t");

@@ -61,7 +61,7 @@ public class HtmlParser {
         //строка содержит столбцы
         Elements columns = row.children();
         for (Element eCell : columns) {
-            int colspan = 0, rowspan = 0;
+            int colspan = 1, rowspan = 1;
             if (eCell.hasAttr("colspan")) colspan = Integer.parseInt(eCell.attr("colspan"));
             if (eCell.hasAttr("rowspan")) rowspan = Integer.parseInt(eCell.attr("rowspan"));
             StringBuilder data = new StringBuilder(eCell.text());
