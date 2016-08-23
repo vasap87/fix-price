@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/fix-price_v1.iml" filepath="$PROJECT_DIR$/fix-price_v1.iml" />
+      <module fileurl="file://$PROJECT_DIR$/fix-price.iml" filepath="$PROJECT_DIR$/fix-price.iml" />
     </modules>
   </component>
 </project>
