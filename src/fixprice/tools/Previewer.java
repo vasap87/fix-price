@@ -25,7 +25,7 @@ public class Previewer {
                 if (j == 1 || j == rowHeight) {
                     res.append(appendBorder(row, columnWidths));
                 } else {
-                    //res.append((appendData(row, columnWidths)));
+                    res.append((appendData(row, columnWidths)));
                 }
             }
             res.append('\n');
