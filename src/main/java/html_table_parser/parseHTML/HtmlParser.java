@@ -69,7 +69,7 @@ public class HtmlParser {
             if (eCell.hasAttr("colspan")) colspan = Integer.parseInt(eCell.attr("colspan"));
             if (eCell.hasAttr("rowspan")) rowspan = Integer.parseInt(eCell.attr("rowspan"));
             // TODO: 24.08.17 взять текст только этого элемента, без вложенных
-            StringBuilder data = new StringBuilder(eCell.data());
+            StringBuilder data = new StringBuilder(eCell.text());
             StringBuilder resData = new StringBuilder();
             Elements eInnerTables = eCell.getElementsByTag("table");
             if (eInnerTables.size() > 0) {

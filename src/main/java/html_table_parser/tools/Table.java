@@ -194,7 +194,6 @@ public class Table {
                     if (cell.getColumnPos() == i) {
                         if (i == 0) {
                             sb.append(appendCell(cell, j));
-                            System.out.println(sb);
                         } else {
                             sb = insertCell(sb, cell);
                         }
