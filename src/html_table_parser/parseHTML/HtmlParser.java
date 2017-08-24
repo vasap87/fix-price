@@ -1,8 +1,8 @@
-package fixprice.parseHTML;
+package html_table_parser.parseHTML;
 
-import fixprice.tools.Table;
-import fixprice.tools.TableCell;
-import fixprice.tools.TableRow;
+import html_table_parser.tools.Table;
+import html_table_parser.tools.TableCell;
+import html_table_parser.tools.TableRow;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
@@ -20,6 +20,8 @@ public class HtmlParser {
     private String path;
     private Table table;
 
+
+
     /**
      * @param path путь к файлу который парсим
      */
@@ -34,7 +36,7 @@ public class HtmlParser {
             Document doc = Jsoup.parse(new File(path), "UTF-8");
             //ищем первую таблицу в документе
             Element eTable = doc.getElementsByTag("table").first();
-            this.table = new Table(0);
+            this.table = new Table();
             parseTable(eTable, table);
         } catch (IOException e) {
             e.printStackTrace();
@@ -49,9 +51,10 @@ public class HtmlParser {
             Elements rows = body.children();
             //парсим отдельно каждую строку
             for (int i = 0; i < rows.size(); i++) {
-                TableRow tableRow = new TableRow(i);
-                tableRows.add(tableRow);
+                //i = номер строки
+                TableRow tableRow = new TableRow(table, i);
                 parseRow(rows.get(i), tableRow);
+                tableRows.add(tableRow);
             }
         }
         table.addTableRows(tableRows);
@@ -60,31 +63,29 @@ public class HtmlParser {
     private void parseRow(Element row, TableRow tableRow) {
         //строка содержит столбцы
         Elements columns = row.children();
-        for (Element eCell : columns) {
+        for (int i = 0; i < columns.size(); i++) {
+            Element eCell = columns.get(i);
             int colspan = 1, rowspan = 1;
             if (eCell.hasAttr("colspan")) colspan = Integer.parseInt(eCell.attr("colspan"));
             if (eCell.hasAttr("rowspan")) rowspan = Integer.parseInt(eCell.attr("rowspan"));
-            StringBuilder data = new StringBuilder(eCell.text());
+            // TODO: 24.08.17 взять текст только этого элемента, без вложенных
+            StringBuilder data = new StringBuilder(eCell.data());
             StringBuilder resData = new StringBuilder();
             Elements eInnerTables = eCell.getElementsByTag("table");
             if (eInnerTables.size() > 0) {
                 List<Table> innerTables = new ArrayList<>();
                 for (Element eInnerTable : eInnerTables) {
-                    Table innerTable = new Table(1);
+                    Table innerTable = new Table();
                     innerTables.add(innerTable);
                     parseTable(eInnerTable, innerTable);
                 }
-                for (Element eInnerTable : eInnerTables) {
-                    resData.append(data.substring(0, data.indexOf(eInnerTable.text())).trim()).append("\t");
-                    data.delete(0, data.indexOf(eInnerTable.text()) + eInnerTable.text().length());
-                }
-                tableRow.addRowCell(new TableCell(tableRow, innerTables, colspan, rowspan, resData.toString()));
+                tableRow.addRowCell(new TableCell(tableRow, innerTables, colspan, rowspan, data.toString()));
             } else {
-                data.append("\t");
                 tableRow.addRowCell(new TableCell(tableRow, null, colspan, rowspan, data.toString()));
             }
         }
     }
+
 
     public Table getTable() {
         return table;
